@@ -66,3 +66,13 @@ class NoteItem(object):
         if self.__id is not None:
             raise RuntimeError("Id is already set up")
         self.__id = id
+
+    def __eq__(self, other):
+        if type(self) != type(other):
+            return False
+        res = (self.id == other.id)
+        res = res and (self.first_name == other.first_name)
+        res = res and (self.last_name == other.last_name)
+        res = res and (self.birthday == other.birthday)
+        res = res and (self.phone_number == other.phone_number)
+        return res
