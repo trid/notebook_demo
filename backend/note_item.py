@@ -59,6 +59,10 @@ class NoteItem(object):
 
     @id.setter
     def id(self, id):
+        """
+        Setter for id parameter. Can be called only in case if id is None
+        :param id: new id of item
+        """
         if self.__id is not None:
             raise RuntimeError("Id is already set up")
         self.__id = id
