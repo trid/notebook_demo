@@ -1,10 +1,11 @@
 class NoteItem(object):
-    def __init__(self, first_name, last_name, phone_number, birthday, dirty=False):
+    def __init__(self, first_name, last_name, phone_number, birthday, dirty=False, id=None):
         self.__first_name = first_name
         self.__last_name = last_name
         self.__phone_number = phone_number
         self.__birthday = birthday
         self.__dirty = dirty
+        self.__id = id
 
     first_name = property()
     last_name = property()
@@ -50,3 +51,7 @@ class NoteItem(object):
     @property
     def dirty(self):
         return self.__dirty
+
+    @property
+    def id(self):
+        return self.__id
