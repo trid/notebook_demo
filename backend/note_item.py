@@ -6,6 +6,7 @@ class NoteItem(object):
         self.__birthday = birthday
         self.__dirty = dirty
         self.__id = id
+        self.__deleted = False
 
     first_name = property()
     last_name = property()
@@ -66,6 +67,13 @@ class NoteItem(object):
         if self.__id is not None:
             raise RuntimeError("Id is already set up")
         self.__id = id
+
+    @property
+    def deleted(self):
+        return self.__deleted
+
+    def delete(self):
+        self.__deleted = True
 
     def __eq__(self, other):
         if type(self) != type(other):
