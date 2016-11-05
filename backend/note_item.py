@@ -11,6 +11,7 @@ class NoteItem(object):
     last_name = property()
     phone_number = property()
     birthday = property()
+    id = property()
 
     @first_name.getter
     def first_name(self):
@@ -52,6 +53,12 @@ class NoteItem(object):
     def dirty(self):
         return self.__dirty
 
-    @property
+    @id.getter
     def id(self):
         return self.__id
+
+    @id.setter
+    def id(self, id):
+        if self.__id is not None:
+            raise RuntimeError("Id is already set up")
+        self.__id = id
