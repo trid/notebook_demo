@@ -66,9 +66,10 @@ class MainWindow(object):
     def __add_button_pressed(self):
         edit_dialog = EditDialog(self.__main_window)
         edit_dialog.show()
-        res = edit_dialog.result
-        self.__datasource.create_item(res["first_name"], res["last_name"], res["phone"], res["birthday"])
-        self.__update_table()
+        if edit_dialog.ok:
+            res = edit_dialog.result
+            self.__datasource.create_item(res["first_name"], res["last_name"], res["phone"], res["birthday"])
+            self.__update_table()
 
     def __edit_button_pressed(self):
         selection_id = self.__table.selection()[0]
@@ -77,12 +78,13 @@ class MainWindow(object):
         item = self.__datasource.items[item_id]
         edit_dialog = EditDialog(self.__main_window, item.last_name, item.first_name, item.phone_number, item.birthday)
         edit_dialog.show()
-        res = edit_dialog.result
-        item.first_name = res["first_name"]
-        item.last_name = res["last_name"]
-        item.phone_number = res["phone"]
-        item.birthday = res["birthday"]
-        self.__update_table()
+        if edit_dialog.ok:
+            res = edit_dialog.result
+            item.first_name = res["first_name"]
+            item.last_name = res["last_name"]
+            item.phone_number = res["phone"]
+            item.birthday = res["birthday"]
+            self.__update_table()
 
     def __remove_button_pressed(self):
         selection_id = self.__table.selection()[0]

@@ -7,6 +7,7 @@ class EditDialog(object):
         top.resizable(width=False, height=False)
         self.__parent = parent
         self.result = {}
+        self.ok = False
         last_name_label = Tkinter.Label(top, text="Last Name")
         last_name_label.grid(column=0, row=0)
         last_name_input = Tkinter.Entry(top)
@@ -32,7 +33,9 @@ class EditDialog(object):
         birthday_input.grid(column=1, row=3)
         self.__bithday_input = birthday_input
         button_ok = Tkinter.Button(top, text="Ok", command=self.__on_ok)
-        button_ok.grid(column=0, row=4)
+        button_ok.grid(column=0, row=4, sticky=Tkinter.E + Tkinter.W)
+        button_cancel = Tkinter.Button(top, text="Cancel", command=self.__on_cancel)
+        button_cancel.grid(column=1, row=4, sticky=Tkinter.E + Tkinter.W)
 
     def show(self):
         self.__parent.wait_window(self.__top)
@@ -42,4 +45,8 @@ class EditDialog(object):
                        "first_name": self.__first_name_input.get(),
                        "phone": self.__phone_input.get(),
                        "birthday": self.__bithday_input.get()}
+        self.__top.destroy()
+        self.ok = True
+
+    def __on_cancel(self):
         self.__top.destroy()
