@@ -102,11 +102,12 @@ class DataStorage(object):
         conn = sqlite3.connect(filename)
         cursor = conn.cursor()
         cursor.execute(LOAD_ALL_QUERY)
-        today_date = datetime.datetime.today().strftime("%d.%m.%Y")
+        today_date = datetime.datetime.today().strftime("%d.%m")
+        today_date = unicode(today_date)
         for row in cursor.fetchall():
             item = NoteItem(row[1], row[2], row[3], row[4], id=row[0])
             self.__items.append(item)
-            if row[4] == today_date:
+            if '.'.join(row[4].split('.')[:2]) == today_date:
                 self.__todays_birthdays.append(item)
 
     @property
