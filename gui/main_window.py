@@ -50,6 +50,7 @@ class MainWindow(object):
         file_menu = Menu(menubar, tearoff=0)
         file_menu.add_command(label="New", command=self.__menu_new_pressed)
         file_menu.add_command(label="Save", command=self.__menu_save_pressed)
+        file_menu.add_command(label="Save As..", command=self.__menu_save_as_pressed)
         file_menu.add_command(label="Load", command=self.__menu_load_pressed)
         file_menu.add_command(label="Exit")
         menubar.add_cascade(label="File", menu=file_menu)
@@ -95,9 +96,15 @@ class MainWindow(object):
         self.__update_table()
 
     def __menu_save_pressed(self):
+        if self.__datasource.filename is not None:
+            self.__datasource.save()
+        else:
+            self.__menu_save_as_pressed()
+
+    def __menu_save_as_pressed(self):
         file_opts = {
-            "defaultextension": ".db",
-            "filetypes": [('all files', '.*'), ('data files', '.db')],
+            "defaultextension": ".not",
+            "filetypes": [('all files', '.*'), ('data files', '.not')],
             "parent": self.__main_window
         }
         filename = tkFileDialog.asksaveasfilename(**file_opts)
@@ -105,8 +112,8 @@ class MainWindow(object):
 
     def __menu_load_pressed(self):
         file_opts = {
-            "defaultextension": ".db",
-            "filetypes": [('all files', '.*'), ('data files', '.db')],
+            "defaultextension": ".not",
+            "filetypes": [('all files', '.*'), ('data files', '.not')],
             "parent": self.__main_window
         }
         filename = tkFileDialog.askopenfilename(**file_opts)
