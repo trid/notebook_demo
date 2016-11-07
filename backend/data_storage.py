@@ -1,5 +1,6 @@
 from copy import copy
 
+import datetime
 import os
 import sqlite3
 
@@ -23,6 +24,7 @@ class DataStorage(object):
         :param filename: path to file, if None, creates clear DataStorage
         """
         self.__items = []
+        self.__todays_birthdays = []
         if filename is not None:
             self.__filename = filename
             self.load(filename)
@@ -100,9 +102,12 @@ class DataStorage(object):
         conn = sqlite3.connect(filename)
         cursor = conn.cursor()
         cursor.execute(LOAD_ALL_QUERY)
+        today_date = datetime.datetime.today().strftime("%d.%m.%Y")
         for row in cursor.fetchall():
             item = NoteItem(row[1], row[2], row[3], row[4], id=row[0])
             self.__items.append(item)
+            if row[4] == today_date:
+                self.__todays_birthdays.append(item)
 
     @property
     def items(self):
@@ -112,6 +117,10 @@ class DataStorage(object):
         :return: Copy of DataStorage items
         """
         return [item for item in self.__items if not item.deleted]
+
+    @property
+    def todays_birthdays(self):
+        return copy(self.__todays_birthdays)
 
     @property
     def filename(self):
