@@ -52,6 +52,8 @@ class NoteItem(object):
         self.__dirty = True
 
     def __validate_phone(self, phone_number):
+        if phone_number == "":
+            return
         if self.PHONE_RE.match(phone_number) is None:
             raise ValueError("Wrong phone number format")
 
@@ -66,6 +68,8 @@ class NoteItem(object):
         self.__dirty = True
 
     def __validate_date(self, birthday):
+        if birthday == "":
+            return
         time.strptime(birthday, "%d.%m.%Y")
 
     @property
