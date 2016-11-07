@@ -2,6 +2,7 @@ import Tkinter
 from Tkinter import Button, Menu, Tk
 from ttk import Scrollbar, Treeview
 import tkFileDialog
+import tkMessageBox
 
 from backend.data_storage import DataStorage
 from gui.edit_dialog import EditDialog
@@ -121,3 +122,9 @@ class MainWindow(object):
         filename = tkFileDialog.askopenfilename(**file_opts)
         self.__datasource = DataStorage(filename=filename)
         self.__update_table()
+
+        birthdays = self.__datasource.todays_birthdays
+        if len(birthdays) != 0:
+            names = ["%s %s" % (item.first_name, item.last_name) for item in birthdays]
+            message = "Today is birthday of %s" % ", ".join(names)
+            tkMessageBox.showinfo("Birthday notification", message)
