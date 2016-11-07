@@ -121,6 +121,10 @@ class DataStorage(object):
 
     @property
     def todays_birthdays(self):
+        """
+        Access to list of today's birthdays
+        :return: copy of today's birthdays list
+        """
         return copy(self.__todays_birthdays)
 
     @property
