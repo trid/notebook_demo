@@ -1,6 +1,7 @@
 import Tkinter
 from Tkinter import Button, Menu, Tk
 from ttk import Scrollbar, Treeview
+import tkFileDialog
 
 from backend.data_storage import DataStorage
 from gui.edit_dialog import EditDialog
@@ -47,9 +48,9 @@ class MainWindow(object):
     def __add_menu(self):
         menubar = Menu(self.__main_window)
         file_menu = Menu(menubar, tearoff=0)
-        file_menu.add_command(label="New")
-        file_menu.add_command(label="Save")
-        file_menu.add_command(label="Load")
+        file_menu.add_command(label="New", command=self.__menu_new_pressed)
+        file_menu.add_command(label="Save", command=self.__menu_save_pressed)
+        file_menu.add_command(label="Load", command=self.__menu_load_pressed)
         file_menu.add_command(label="Exit")
         menubar.add_cascade(label="File", menu=file_menu)
         self.__main_window.config(menu=menubar)
@@ -87,4 +88,27 @@ class MainWindow(object):
         cur_item = self.__table.item(selection_id)
         item_id = cur_item["values"][4]
         self.__datasource.delete_item(item_id)
+        self.__update_table()
+
+    def __menu_new_pressed(self):
+        self.__datasource = DataStorage()
+        self.__update_table()
+
+    def __menu_save_pressed(self):
+        file_opts = {
+            "defaultextension": ".db",
+            "filetypes": [('all files', '.*'), ('data files', '.db')],
+            "parent": self.__main_window
+        }
+        filename = tkFileDialog.asksaveasfilename(**file_opts)
+        self.__datasource.save(filename=filename)
+
+    def __menu_load_pressed(self):
+        file_opts = {
+            "defaultextension": ".db",
+            "filetypes": [('all files', '.*'), ('data files', '.db')],
+            "parent": self.__main_window
+        }
+        filename = tkFileDialog.askopenfilename(**file_opts)
+        self.__datasource = DataStorage(filename=filename)
         self.__update_table()
