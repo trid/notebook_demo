@@ -25,6 +25,7 @@ class DataStorage(object):
         """
         self.__items = []
         self.__todays_birthdays = []
+        self.__filename = None
         if filename is not None:
             self.__filename = filename
             self.load(filename)

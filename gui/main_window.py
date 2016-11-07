@@ -92,7 +92,7 @@ class MainWindow(object):
         self.__update_table()
 
     def __menu_save_pressed(self):
-        if self.__datasource.filename is None:
+        if self.__datasource.filename is not None:
             self.__datasource.save()
         else:
             self.__menu_save_as_pressed()
