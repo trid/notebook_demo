@@ -1,8 +1,17 @@
+import re
+
+import time
+
+
 class NoteItem(object):
+    PHONE_RE = re.compile("""\+?\d+""")
+
     def __init__(self, first_name, last_name, phone_number, birthday, dirty=False, id=None):
         self.__first_name = first_name
         self.__last_name = last_name
+        self.__validate_phone(phone_number)
         self.__phone_number = phone_number
+        self.__validate_date(birthday)
         self.__birthday = birthday
         self.__dirty = dirty
         self.__id = id
@@ -38,8 +47,13 @@ class NoteItem(object):
 
     @phone_number.setter
     def phone_number(self, phone_number):
+        self.__validate_phone(phone_number)
         self.__phone_number = phone_number
         self.__dirty = True
+
+    def __validate_phone(self, phone_number):
+        if self.PHONE_RE.match(phone_number) is None:
+            raise ValueError("Wrong phone number format")
 
     @birthday.getter
     def birthday(self):
@@ -47,8 +61,12 @@ class NoteItem(object):
 
     @birthday.setter
     def birthday(self, birthday):
+        self.__validate_date(birthday)
         self.__birthday = birthday
         self.__dirty = True
+
+    def __validate_date(self, birthday):
+        time.strptime(birthday, "%d.%m.%Y")
 
     @property
     def dirty(self):
